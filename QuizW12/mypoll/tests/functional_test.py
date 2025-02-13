@@ -20,20 +20,21 @@ class PollAppFunctionalTest(unittest.TestCase):
         # เปิดหน้าโพล
         self.browser.get('http://127.0.0.1:8000/polls/')
         
-        # ดูว่ามีคำถามให้เลือกหรือไม่
+        # เช็คว่ามีคำถามอย่างน้อย 1 ข้อ
         questions = self.browser.find_elements(By.TAG_NAME, "li")
         self.assertGreater(len(questions), 0, "ไม่มีคำถามให้โหวต!")
 
-        # คลิกที่คำถามแรก
+        # เลือกคำถามแรก
         first_question_link = questions[0].find_element(By.TAG_NAME, "a")
         first_question_link.click()
 
-        # ตรวจสอบว่าเข้ามาหน้ารายละเอียดคำถามแล้ว
+        # เช็คว่าไปที่หน้าโหวตแล้วหรือนัง
         self.assertIn("/polls/", self.browser.current_url)
         choices = self.browser.find_elements(By.NAME, "choice")
+        # เช็คว่ามีตัวเลือกอย่างน้อย 2
         self.assertGreaterEqual(len(choices), 2, "ตัวเลือกไม่ครบ!")
 
-        # สมปองเลือก "หมา"
+        # สมปองเลือก "หมา" แล้วคลิ๊ก
         choice_dog = self.browser.find_element(By.CSS_SELECTOR, "input[value='1']")
         choice_dog.click()
         
